@@ -1,8 +1,7 @@
 import { StyleSheet, type ViewStyle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { AppText, AppView } from '@/components/ui';
 import { theme } from '@/theme';
 
 export type ScreenContainerProps = {
@@ -11,16 +10,17 @@ export type ScreenContainerProps = {
   contentStyle?: ViewStyle;
 };
 
+/** Layout simples para telas placeholder (ainda não implementadas). */
 export function ScreenContainer({ title, children, contentStyle }: ScreenContainerProps) {
   return (
-    <ThemedView style={styles.container}>
+    <AppView style={styles.container}>
       <SafeAreaView style={[styles.content, contentStyle]} edges={['top', 'bottom']}>
-        <ThemedText type="title" style={styles.title}>
+        <AppText variant="title" style={styles.title}>
           {title}
-        </ThemedText>
+        </AppText>
         {children}
       </SafeAreaView>
-    </ThemedView>
+    </AppView>
   );
 }
 

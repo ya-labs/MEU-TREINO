@@ -1,11 +1,10 @@
 {
-  "dependencies": {
-    "@react-native-community/netinfo": "^12.0.1",
-    "@react-navigation/native": "^7.2.5",
-    "@tanstack/react-query": "^5.100.14",
-    "axios": "^1.16.1",
-    "expo-sqlite": "~56.0.4",
-    "react-hook-form": "^7.77.0",
-    "zod": "^4.4.3"
+  "name": "meu-treino-monorepo",
+  "private": true,
+  "scripts": {
+    "start": "npm run start --prefix meu-treino",
+    "android": "npm run android --prefix meu-treino",
+    "ios": "npm run ios --prefix meu-treino",
+    "web": "npm run web --prefix meu-treino"
   }
 }
