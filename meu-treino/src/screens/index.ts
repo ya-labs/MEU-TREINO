@@ -1,0 +1,8 @@
+export { default as HomeScreen } from './home-screen';
+export { default as TreinosScreen } from './treinos-screen';
+export { default as EditarTreinoScreen } from './editar-treino-screen';
+export { default as OrganizarSemanaScreen } from './organizar-semana-screen';
+export { default as TreinoScreen } from './treino-screen';
+export { default as DescansoScreen } from './descanso-screen';
+export { default as ResumoScreen } from './resumo-screen';
+export { default as ConfiguracoesScreen } from './configuracoes-screen';
