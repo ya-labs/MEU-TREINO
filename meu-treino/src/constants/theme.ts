@@ -1,40 +1,40 @@
 /**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
+ * Adaptador de compatibilidade.
+ *
+ * A fonte única de verdade do tema agora vive em `src/theme`.
+ * Este arquivo apenas reexpõe os tokens no formato que os componentes
+ * legados do template (themed-text, themed-view, etc.) esperam.
+ *
+ * Em código novo, importe sempre de `@/theme`.
  */
 
 import '@/global.css';
 
 import { Platform } from 'react-native';
 
-export const Colors = {
-  light: {
-    text: '#000000',
-    background: '#ffffff',
-    backgroundElement: '#F0F0F3',
-    backgroundSelected: '#E0E1E6',
-    textSecondary: '#60646C',
-  },
-  dark: {
-    text: '#ffffff',
-    background: '#000000',
-    backgroundElement: '#212225',
-    backgroundSelected: '#2E3135',
-    textSecondary: '#B0B4BA',
-  },
+import { colors, spacing } from '@/theme';
+
+const tokens = {
+  text: colors.text,
+  background: colors.background,
+  backgroundElement: colors.surface,
+  backgroundSelected: colors.surfaceElevated,
+  textSecondary: colors.textSecondary,
 } as const;
 
-export type ThemeColor = keyof typeof Colors.light & keyof typeof Colors.dark;
+// App é dark-only: ambos os esquemas apontam para a mesma paleta escura.
+export const Colors = {
+  light: tokens,
+  dark: tokens,
+} as const;
+
+export type ThemeColor = keyof typeof tokens;
 
 export const Fonts = Platform.select({
   ios: {
-    /** iOS `UIFontDescriptorSystemDesignDefault` */
     sans: 'system-ui',
-    /** iOS `UIFontDescriptorSystemDesignSerif` */
     serif: 'ui-serif',
-    /** iOS `UIFontDescriptorSystemDesignRounded` */
     rounded: 'ui-rounded',
-    /** iOS `UIFontDescriptorSystemDesignMonospaced` */
     mono: 'ui-monospace',
   },
   default: {
@@ -52,13 +52,13 @@ export const Fonts = Platform.select({
 });
 
 export const Spacing = {
-  half: 2,
-  one: 4,
-  two: 8,
-  three: 16,
-  four: 24,
-  five: 32,
-  six: 64,
+  half: spacing.xxs,
+  one: spacing.xs,
+  two: spacing.sm,
+  three: spacing.lg,
+  four: spacing['2xl'],
+  five: spacing['3xl'],
+  six: spacing['6xl'],
 } as const;
 
 export const BottomTabInset = Platform.select({ ios: 50, android: 80 }) ?? 0;

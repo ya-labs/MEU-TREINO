@@ -11,6 +11,7 @@ import {
   TreinoScreen,
   TreinosScreen,
 } from '@/screens';
+import { theme } from '@/theme';
 
 import type { MainTabsParamList, RootStackParamList } from './navigation-types';
 
@@ -19,7 +20,17 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function MainTabsNavigator() {
   return (
-    <Tabs.Navigator initialRouteName="Home">
+    <Tabs.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: theme.colors.tabBarActive,
+        tabBarInactiveTintColor: theme.colors.tabBarInactive,
+        tabBarStyle: {
+          backgroundColor: theme.colors.tabBar,
+          borderTopColor: theme.colors.tabBarBorder,
+        },
+      }}>
       <Tabs.Screen name="Home" component={HomeScreen} options={{ title: 'Home' }} />
       <Tabs.Screen name="Treinos" component={TreinosScreen} options={{ title: 'Treinos' }} />
       <Tabs.Screen
@@ -38,7 +49,15 @@ function MainTabsNavigator() {
 
 export function RootNavigator() {
   return (
-    <Stack.Navigator initialRouteName="MainTabs">
+    <Stack.Navigator
+      initialRouteName="MainTabs"
+      screenOptions={{
+        headerStyle: { backgroundColor: theme.colors.surface },
+        headerTintColor: theme.colors.text,
+        headerTitleStyle: { fontWeight: theme.typography.fontWeight.semibold },
+        headerShadowVisible: false,
+        contentStyle: { backgroundColor: theme.colors.background },
+      }}>
       <Stack.Screen
         name="MainTabs"
         component={MainTabsNavigator}

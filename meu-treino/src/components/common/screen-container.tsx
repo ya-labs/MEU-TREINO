@@ -3,7 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Spacing } from '@/constants/theme';
+import { theme } from '@/theme';
 
 export type ScreenContainerProps = {
   title: string;
@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: Spacing.three,
-    paddingHorizontal: Spacing.four,
+    gap: theme.spacing.lg,
+    paddingHorizontal: theme.spacing['2xl'],
   },
   title: {
     textAlign: 'center',
