@@ -1,6 +1,4 @@
-import type { ColorToken } from '@/theme';
-
-export type TreinoLabel = 'A' | 'B' | 'C';
+import type { TreinoLabel } from '@/types';
 
 export type WeekDayStatus = {
   initial: string;
@@ -55,14 +53,3 @@ export const homeMock = {
     { id: '3', nome: 'Treino C', quando: 'Há 6 dias', duracao: '55 min' },
   ] satisfies TreinoRecente[],
 } as const;
-
-export function getTreinoLabelColor(label: TreinoLabel): ColorToken {
-  switch (label) {
-    case 'A':
-      return 'workoutA';
-    case 'B':
-      return 'workoutB';
-    case 'C':
-      return 'workoutC';
-  }
-}

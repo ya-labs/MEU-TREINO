@@ -1,8 +1,9 @@
 import { StyleSheet, View } from 'react-native';
 
 import { AppText } from '@/components/ui';
-import { getTreinoLabelColor, type TreinoLabel } from '@/mocks/home-mock';
 import { theme } from '@/theme';
+import { getTreinoLabelColor } from '@/utils';
+import type { TreinoLabel } from '@/types';
 
 export type WorkoutBadgeProps = {
   label: TreinoLabel;

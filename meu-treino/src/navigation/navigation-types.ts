@@ -13,8 +13,16 @@ export type RootStackParamList = {
   MainTabs: NavigatorScreenParams<MainTabsParamList> | undefined;
   EditarTreino: { treinoId?: string } | undefined;
   Treino: { treinoId?: string } | undefined;
-  Descanso: undefined;
-  Resumo: { sessaoId?: string } | undefined;
+  Descanso:
+    | {
+        treinoNome?: string;
+        exercicioNome?: string;
+        serieAtual?: number;
+        totalSeries?: number;
+        duracaoSegundos?: number;
+      }
+    | undefined;
+  Resumo: { treinoId?: string } | undefined;
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> = NativeStackScreenProps<
