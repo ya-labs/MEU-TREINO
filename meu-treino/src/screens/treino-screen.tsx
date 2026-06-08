@@ -1,17 +1,18 @@
-import { useLayoutEffect, useState } from 'react';
+import { useLayoutEffect } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { SetDots } from '@/components/treino';
 import { AppText, AppView, Button, ProgressRing } from '@/components/ui';
 import { useWorkout } from '@/hooks/use-workout';
+import { useWorkoutSession } from '@/hooks/use-workout-session';
 import type { RootStackScreenProps } from '@/navigation/navigation-types';
 import { theme } from '@/theme';
 
 export default function TreinoScreen({ navigation, route }: RootStackScreenProps<'Treino'>) {
   const { treino, loading } = useWorkout(route.params?.treinoId);
-  const [exIndex, setExIndex] = useState(0);
-  const [serie, setSerie] = useState(1);
+  const { exIndex, serie, exercicio, totalExercicios, proximoExercicioNome, registrarSerie, salvarSessao } =
+    useWorkoutSession(treino);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -30,7 +31,7 @@ export default function TreinoScreen({ navigation, route }: RootStackScreenProps
     });
   }, [navigation, treino?.nome]);
 
-  if (loading || !treino || treino.exercicios.length === 0) {
+  if (loading || !treino || !exercicio) {
     return (
       <AppView style={[styles.root, styles.centered]}>
         {loading ? (
@@ -44,32 +45,16 @@ export default function TreinoScreen({ navigation, route }: RootStackScreenProps
     );
   }
 
-  const exercicio = treino.exercicios[exIndex];
-  const totalExercicios = treino.exercicios.length;
-  const proximoExercicio = treino.exercicios[exIndex + 1]?.nome ?? 'Último exercício';
+  const finalizarSerie = async () => {
+    const resultado = registrarSerie();
 
-  const finalizarSerie = () => {
-    const ehUltimaSerie = serie >= exercicio.series;
-    const ehUltimoExercicio = exIndex >= totalExercicios - 1;
-
-    if (ehUltimaSerie && ehUltimoExercicio) {
-      navigation.navigate('Resumo', { treinoId: treino.id });
+    if (resultado.concluido) {
+      const sessao = await salvarSessao();
+      navigation.navigate('Resumo', { sessionId: sessao?.id, treinoId: treino.id });
       return;
     }
 
-    const proximoIndex = ehUltimaSerie ? exIndex + 1 : exIndex;
-    const proximaSerie = ehUltimaSerie ? 1 : serie + 1;
-
-    setExIndex(proximoIndex);
-    setSerie(proximaSerie);
-
-    navigation.navigate('Descanso', {
-      treinoNome: treino.nome,
-      exercicioNome: treino.exercicios[proximoIndex].nome,
-      serieAtual: proximaSerie,
-      totalSeries: treino.exercicios[proximoIndex].series,
-      duracaoSegundos: exercicio.descansoSegundos,
-    });
+    navigation.navigate('Descanso', resultado.descanso);
   };
 
   return (
@@ -98,7 +83,7 @@ export default function TreinoScreen({ navigation, route }: RootStackScreenProps
           <AppText variant="caption" color="textMuted">
             Próximo exercício
           </AppText>
-          <AppText variant="bodyBold">{proximoExercicio}</AppText>
+          <AppText variant="bodyBold">{proximoExercicioNome}</AppText>
           <Button label="Finalizar série" onPress={finalizarSerie} />
         </View>
       </SafeAreaView>

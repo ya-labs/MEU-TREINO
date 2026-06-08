@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AppText, AppView, Button, ProgressRing } from '@/components/ui';
+import { useRestTimer } from '@/hooks/use-rest-timer';
 import type { RootStackScreenProps } from '@/navigation/navigation-types';
 import { theme } from '@/theme';
 import { formatSeconds } from '@/utils';
@@ -16,16 +17,11 @@ export default function DescansoScreen({ navigation, route }: RootStackScreenPro
     duracaoSegundos = 40,
   } = route.params ?? {};
 
-  const [restante, setRestante] = useState(duracaoSegundos);
+  const voltarParaTreino = useCallback(() => {
+    navigation.goBack();
+  }, [navigation]);
 
-  useEffect(() => {
-    if (restante <= 0) {
-      navigation.goBack();
-      return;
-    }
-    const timer = setTimeout(() => setRestante((valor) => valor - 1), 1000);
-    return () => clearTimeout(timer);
-  }, [restante, navigation]);
+  const restante = useRestTimer(duracaoSegundos, voltarParaTreino);
 
   return (
     <AppView style={styles.root}>
@@ -54,7 +50,7 @@ export default function DescansoScreen({ navigation, route }: RootStackScreenPro
             {exercicioNome}
             {serieAtual && totalSeries ? ` · Série ${serieAtual} de ${totalSeries}` : ''}
           </AppText>
-          <Button label="Pular descanso" onPress={() => navigation.goBack()} />
+          <Button label="Pular descanso" onPress={voltarParaTreino} />
         </View>
       </SafeAreaView>
     </AppView>

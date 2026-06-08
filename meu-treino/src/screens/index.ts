@@ -6,3 +6,4 @@ export { default as TreinoScreen } from './treino-screen';
 export { default as DescansoScreen } from './descanso-screen';
 export { default as ResumoScreen } from './resumo-screen';
 export { default as ConfiguracoesScreen } from './configuracoes-screen';
+export { default as HistoricoScreen } from './historico-screen';

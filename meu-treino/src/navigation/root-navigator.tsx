@@ -5,6 +5,7 @@ import {
   ConfiguracoesScreen,
   DescansoScreen,
   EditarTreinoScreen,
+  HistoricoScreen,
   HomeScreen,
   OrganizarSemanaScreen,
   ResumoScreen,
@@ -75,6 +76,7 @@ export function RootNavigator() {
         options={{ title: 'Descanso', presentation: 'modal' }}
       />
       <Stack.Screen name="Resumo" component={ResumoScreen} options={{ title: 'Resumo' }} />
+      <Stack.Screen name="Historico" component={HistoricoScreen} options={{ title: 'Histórico' }} />
     </Stack.Navigator>
   );
 }

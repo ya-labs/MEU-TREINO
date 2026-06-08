@@ -22,7 +22,8 @@ export type RootStackParamList = {
         duracaoSegundos?: number;
       }
     | undefined;
-  Resumo: { treinoId?: string } | undefined;
+  Resumo: { sessionId?: string; treinoId?: string } | undefined;
+  Historico: undefined;
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> = NativeStackScreenProps<

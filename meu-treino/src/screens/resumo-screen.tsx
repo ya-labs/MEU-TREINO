@@ -4,19 +4,28 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { WorkoutBadge } from '@/components/home';
 import { StatsGrid } from '@/components/resumo';
 import { AppText, AppView, Button, Card } from '@/components/ui';
-import { useWorkout } from '@/hooks/use-workout';
-import { resumoSessaoMock } from '@/mocks';
+import { useSessao } from '@/hooks/use-workout-session';
 import type { RootStackScreenProps } from '@/navigation/navigation-types';
 import { theme } from '@/theme';
+import type { ResumoSessao, TreinoLabel } from '@/types';
+import { formatSeconds } from '@/utils';
+
+function formatarConclusao(epochMs: number): string {
+  const hora = new Date(epochMs).toLocaleTimeString('pt-BR', {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+  return `Hoje • ${hora}`;
+}
 
 export default function ResumoScreen({ navigation, route }: RootStackScreenProps<'Resumo'>) {
-  const { treino, loading } = useWorkout(route.params?.treinoId);
+  const { sessao, loading } = useSessao(route.params?.sessionId);
 
   useLayoutEffect(() => {
     navigation.setOptions({ headerShown: false });
   }, [navigation]);
 
-  if (loading || !treino) {
+  if (loading) {
     return (
       <AppView style={[styles.root, styles.centered]}>
         <ActivityIndicator color={theme.colors.primary} />
@@ -24,10 +33,13 @@ export default function ResumoScreen({ navigation, route }: RootStackScreenProps
     );
   }
 
-  const resumo = {
-    ...resumoSessaoMock,
-    treinoNome: treino.nome,
-    exercicios: treino.exercicios.length,
+  const label: TreinoLabel = sessao?.treinoLabel ?? 'A';
+  const resumo: ResumoSessao = {
+    treinoNome: sessao?.treinoNome ?? 'Treino',
+    data: sessao ? formatarConclusao(sessao.fimEm) : 'Concluído agora',
+    tempo: formatSeconds(sessao?.duracaoSegundos ?? 0),
+    series: sessao?.series ?? 0,
+    exercicios: sessao?.exercicios ?? 0,
   };
 
   return (
@@ -45,7 +57,7 @@ export default function ResumoScreen({ navigation, route }: RootStackScreenProps
         <StatsGrid resumo={resumo} />
 
         <Card style={styles.treinoRow}>
-          <WorkoutBadge label={treino.label} size="sm" />
+          <WorkoutBadge label={label} size="sm" />
           <View style={styles.info}>
             <AppText variant="bodyBold">{resumo.treinoNome}</AppText>
             <AppText variant="small" color="textSecondary">

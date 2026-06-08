@@ -1,5 +1,5 @@
 /** Versão atual do schema. Incremente ao alterar as tabelas abaixo. */
-export const SCHEMA_VERSION = 1;
+export const SCHEMA_VERSION = 2;
 
 /** DDL completo do banco. Executado em uma migração nova/limpa. */
 export const SCHEMA_SQL = `
@@ -28,4 +28,19 @@ CREATE TABLE IF NOT EXISTS schedule (
   workout_id TEXT,
   FOREIGN KEY (workout_id) REFERENCES workouts (id) ON DELETE SET NULL
 );
+
+CREATE TABLE IF NOT EXISTS sessions (
+  id TEXT PRIMARY KEY NOT NULL,
+  workout_id TEXT,
+  treino_nome TEXT NOT NULL,
+  treino_label TEXT NOT NULL,
+  inicio_em INTEGER NOT NULL,
+  fim_em INTEGER NOT NULL,
+  duracao_segundos INTEGER NOT NULL,
+  series INTEGER NOT NULL,
+  exercicios INTEGER NOT NULL,
+  FOREIGN KEY (workout_id) REFERENCES workouts (id) ON DELETE SET NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_sessions_fim ON sessions (fim_em DESC);
 `;

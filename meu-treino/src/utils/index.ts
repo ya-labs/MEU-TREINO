@@ -1,2 +1,2 @@
-export { formatSeconds } from './time';
+export { formatSeconds, formatDuracaoMin, formatDiaRelativo } from './time';
 export { getTreinoLabelColor } from './workout';
