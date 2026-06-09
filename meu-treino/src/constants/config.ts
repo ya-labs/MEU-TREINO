@@ -3,8 +3,9 @@ import type { DiaSemana } from '@/types';
 /** Nome do arquivo do banco SQLite no dispositivo. */
 export const DB_NAME = 'meu-treino.db';
 
-/** Opções de descanso rápido (em segundos) usadas na edição de treino. */
-export const DEFAULT_REST_OPTIONS = [30, 40, 60] as const;
+/** Limites do tempo de descanso (em segundos) na edição de treino. */
+export const REST_MIN_SECONDS = 30;
+export const REST_MAX_SECONDS = 300;
 
 /** Descanso padrão (em segundos) ao criar um novo exercício. */
 export const DEFAULT_REST_SECONDS = 40;

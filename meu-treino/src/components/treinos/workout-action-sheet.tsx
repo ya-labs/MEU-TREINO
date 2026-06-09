@@ -8,7 +8,6 @@ export type WorkoutActionSheetProps = {
   treino: Treino | null;
   onClose: () => void;
   onEditar: () => void;
-  onRenomear: () => void;
   onExcluir: () => void;
 };
 
@@ -23,12 +22,10 @@ export function WorkoutActionSheet({
   treino,
   onClose,
   onEditar,
-  onRenomear,
   onExcluir,
 }: WorkoutActionSheetProps) {
   const acoes: Acao[] = [
     { icon: '✏️', label: 'Editar treino', color: 'text', onPress: onEditar },
-    { icon: '🔤', label: 'Renomear', color: 'text', onPress: onRenomear },
     { icon: '🗑️', label: 'Excluir', color: 'danger', onPress: onExcluir },
   ];
 

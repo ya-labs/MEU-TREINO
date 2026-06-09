@@ -18,9 +18,11 @@ export function WorkoutListItem({ treino, onPress, onMenu }: WorkoutListItemProp
         <WorkoutBadge label={treino.label} size="sm" />
         <View style={styles.info}>
           <AppText variant="bodyBold">{treino.nome}</AppText>
-          <AppText variant="small" color="textSecondary">
-            {treino.foco}
-          </AppText>
+          {treino.foco ? (
+            <AppText variant="small" color="textSecondary">
+              {treino.foco}
+            </AppText>
+          ) : null}
           <AppText variant="small" color="textMuted">
             {treino.exercicios.length} exercícios
           </AppText>

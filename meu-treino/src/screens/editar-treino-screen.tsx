@@ -5,7 +5,7 @@ import { ScreenScroll } from '@/components/common';
 import {
   AddExerciseSheet,
   ExerciseRow,
-  RestChips,
+  RestInput,
   type NovoExercicio,
 } from '@/components/editar-treino';
 import { AppText, Button, IconButton, Input, SectionHeader } from '@/components/ui';
@@ -24,6 +24,7 @@ export default function EditarTreinoScreen({
   const { treino } = useWorkout(treinoId);
 
   const [nome, setNome] = useState('');
+  const [foco, setFoco] = useState('');
   const [exercicios, setExercicios] = useState<Exercicio[]>([]);
   const [descanso, setDescanso] = useState(DEFAULT_REST_SECONDS);
   const [sheetVisible, setSheetVisible] = useState(false);
@@ -32,6 +33,7 @@ export default function EditarTreinoScreen({
   useEffect(() => {
     if (treino) {
       setNome(treino.nome);
+      setFoco(treino.foco);
       setExercicios(treino.exercicios);
     }
   }, [treino]);
@@ -80,7 +82,10 @@ export default function EditarTreinoScreen({
     setSalvando(true);
     await salvarTreino({
       id: treinoId,
-      dados: { nome: nome.trim() || 'Novo treino' },
+      dados: {
+        nome: nome.trim() || 'Novo treino',
+        foco: foco.trim(),
+      },
       exercicios: exercicios.map(({ nome: n, series, descansoSegundos }) => ({
         nome: n,
         series,
@@ -97,6 +102,13 @@ export default function EditarTreinoScreen({
         placeholder="Ex.: Treino A"
         value={nome}
         onChangeText={setNome}
+      />
+
+      <Input
+        label="Descrição (opcional)"
+        placeholder="Ex.: Peito e tríceps"
+        value={foco}
+        onChangeText={setFoco}
       />
 
       <View style={styles.section}>
@@ -122,7 +134,7 @@ export default function EditarTreinoScreen({
         )}
       </View>
 
-      <RestChips valor={descanso} onChange={setDescanso} />
+      <RestInput valor={descanso} onChange={setDescanso} />
 
       <Button label="Salvar alterações" onPress={salvar} disabled={salvando} />
 

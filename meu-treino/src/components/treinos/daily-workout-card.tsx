@@ -22,9 +22,11 @@ export function DailyWorkoutCard({ treino, diaLabel, onIniciar }: DailyWorkoutCa
           <WorkoutBadge label={treino.label} />
           <View style={styles.info}>
             <AppText variant="title2">{treino.nome}</AppText>
-            <AppText variant="caption" color="textSecondary">
-              {treino.foco}
-            </AppText>
+            {treino.foco ? (
+              <AppText variant="caption" color="textSecondary">
+                {treino.foco}
+              </AppText>
+            ) : null}
           </View>
         </View>
         <Button label="Iniciar treino" onPress={onIniciar} />

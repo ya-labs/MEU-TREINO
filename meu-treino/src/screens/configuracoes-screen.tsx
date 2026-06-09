@@ -4,14 +4,12 @@ import { StyleSheet, View } from 'react-native';
 import { ScreenScroll } from '@/components/common';
 import { SettingsRow, SettingsSection } from '@/components/configuracoes';
 import { AppText, Card } from '@/components/ui';
-import { perfilMock } from '@/mocks';
 import type { MainTabScreenProps } from '@/navigation/navigation-types';
 import { theme } from '@/theme';
 
 export default function ConfiguracoesScreen(_props: MainTabScreenProps<'Configuracoes'>) {
   const [notificacoes, setNotificacoes] = useState(true);
   const [somDescanso, setSomDescanso] = useState(true);
-  const iniciais = perfilMock.nome.charAt(0).toUpperCase();
 
   return (
     <ScreenScroll>
@@ -20,13 +18,13 @@ export default function ConfiguracoesScreen(_props: MainTabScreenProps<'Configur
       <Card style={styles.perfil}>
         <View style={styles.avatar}>
           <AppText variant="title2" color="textOnPrimary">
-            {iniciais}
+            U
           </AppText>
         </View>
         <View style={styles.perfilInfo}>
-          <AppText variant="bodyBold">{perfilMock.nome}</AppText>
+          <AppText variant="bodyBold">Usuário</AppText>
           <AppText variant="small" color="textSecondary">
-            {perfilMock.email}
+            usuario@meutreino.app
           </AppText>
         </View>
       </Card>
@@ -44,7 +42,6 @@ export default function ConfiguracoesScreen(_props: MainTabScreenProps<'Configur
       </SettingsSection>
 
       <SettingsSection title="Treino">
-        <SettingsRow icon="⏱️" label="Descanso padrão" type="link" value="40s" />
         <SettingsRow
           icon="🔊"
           label="Som ao finalizar descanso"
@@ -56,7 +53,6 @@ export default function ConfiguracoesScreen(_props: MainTabScreenProps<'Configur
 
       <SettingsSection title="Sobre">
         <SettingsRow icon="ℹ️" label="Versão" type="link" value="1.0.0" />
-        <SettingsRow icon="📄" label="Termos de uso" type="link" />
       </SettingsSection>
 
       <SettingsSection title="Conta">

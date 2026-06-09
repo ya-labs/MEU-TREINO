@@ -4,17 +4,16 @@ import { AppText } from '@/components/ui';
 import { theme } from '@/theme';
 
 export type HomeHeaderProps = {
-  nome: string;
   frase: string;
 };
 
-export function HomeHeader({ nome, frase }: HomeHeaderProps) {
+export function HomeHeader({ frase }: HomeHeaderProps) {
   return (
     <View style={styles.row}>
       <View style={styles.textBlock}>
         <AppText variant="largeTitle">Home</AppText>
         <AppText variant="subtitle" style={styles.greeting}>
-          Olá, {nome}
+          Olá, Bom Treino!
         </AppText>
         <AppText variant="body" color="textSecondary">
           {frase}

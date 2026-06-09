@@ -5,22 +5,29 @@ import { StyleSheet, View } from 'react-native';
 import { ScreenScroll } from '@/components/common';
 import { DailyWorkoutCard, WorkoutActionSheet, WorkoutListItem } from '@/components/treinos';
 import { AppText, Button, SectionHeader } from '@/components/ui';
+import { useWeeklySchedule } from '@/hooks/use-weekly-schedule';
 import { useWorkouts } from '@/hooks/use-workouts';
 import type { MainTabScreenProps } from '@/navigation/navigation-types';
 import { theme } from '@/theme';
 import type { Treino } from '@/types';
+import { getDiaSemanaHoje } from '@/utils';
 
 export default function TreinosScreen({ navigation }: MainTabScreenProps<'Treinos'>) {
   const { workouts, reload, removeWorkout } = useWorkouts();
+  const { agenda, reload: reloadAgenda } = useWeeklySchedule();
   const [treinoSelecionado, setTreinoSelecionado] = useState<Treino | null>(null);
 
   useFocusEffect(
     useCallback(() => {
       reload();
-    }, [reload]),
+      reloadAgenda();
+    }, [reload, reloadAgenda]),
   );
 
-  const treinoDoDia = workouts[0] ?? null;
+  const treinoDoDiaId = agenda?.[getDiaSemanaHoje()] ?? null;
+  const treinoDoDia = treinoDoDiaId
+    ? (workouts.find((treino) => treino.id === treinoDoDiaId) ?? null)
+    : null;
 
   const abrirExecucao = useCallback(
     (treinoId: string) => {
@@ -86,18 +93,12 @@ export default function TreinosScreen({ navigation }: MainTabScreenProps<'Treino
 
       <View style={styles.actions}>
         <Button label="+ Novo treino" variant="outline" onPress={() => abrirEdicao()} />
-        <Button
-          label="Organizar treinamentos"
-          variant="outline"
-          onPress={() => navigation.navigate('OrganizarSemana')}
-        />
       </View>
 
       <WorkoutActionSheet
         treino={treinoSelecionado}
         onClose={fecharMenu}
         onEditar={editarPeloMenu}
-        onRenomear={editarPeloMenu}
         onExcluir={excluirPeloMenu}
       />
     </ScreenScroll>

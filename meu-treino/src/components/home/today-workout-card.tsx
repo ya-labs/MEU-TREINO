@@ -6,11 +6,30 @@ import type { TreinoResumo } from '@/mocks/home-mock';
 import { theme } from '@/theme';
 
 export type TodayWorkoutCardProps = {
-  treino: TreinoResumo;
+  treino: TreinoResumo | null;
   onIniciar: () => void;
 };
 
 export function TodayWorkoutCard({ treino, onIniciar }: TodayWorkoutCardProps) {
+  if (!treino) {
+    return (
+      <View style={styles.section}>
+        <AppText variant="title2">Treino de hoje</AppText>
+        <Card elevated style={styles.card}>
+          <View style={styles.header}>
+            <AppText variant="body">😴</AppText>
+            <View style={styles.info}>
+              <AppText variant="bodyBold">Dia de descanso</AppText>
+              <AppText variant="caption" color="textSecondary">
+                Nenhum treino agendado para hoje. Aproveite para recuperar.
+              </AppText>
+            </View>
+          </View>
+        </Card>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.section}>
       <AppText variant="title2">Treino de hoje</AppText>
@@ -19,9 +38,11 @@ export function TodayWorkoutCard({ treino, onIniciar }: TodayWorkoutCardProps) {
           <WorkoutBadge label={treino.label} />
           <View style={styles.info}>
             <AppText variant="bodyBold">{treino.nome}</AppText>
-            <AppText variant="caption" color="textSecondary">
-              {treino.foco}
-            </AppText>
+            {treino.foco ? (
+              <AppText variant="caption" color="textSecondary">
+                {treino.foco}
+              </AppText>
+            ) : null}
             <AppText variant="small" color="textMuted">
               {treino.exercicios} exercícios
             </AppText>
